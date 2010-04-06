@@ -1,0 +1,7 @@
+= trazzler-api
+
+A simple wrapper around the Trazzler API (http://api.trazzler.com/).
+
+== Copyright
+
+Copyright (c) 2009 John Nunemaker. See LICENSE for details.
