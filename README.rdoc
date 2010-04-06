@@ -2,6 +2,61 @@
 
 A simple wrapper around the Trazzler API (http://api.trazzler.com/).
 
+== Usage
+
+Install the gem.
+
+=== Manual Install
+
+Standard gem install:
+
+  gem install trazzler-api
+
+After installing the gem you would need to require it.
+
+  require 'trazzler-api'
+
+=== Rails 2.x
+
+In a Rails 2.x project you can add this to your environment.rb:
+
+  config.gem 'trazzler-api'
+
+followed by:
+
+  rake gems:install
+
+=== Rails 3.x
+
+In Rails 3.x add this to your Gemfile:
+
+  gem 'trazzler-api'
+
+followed by:
+
+  bundle install
+
+=== Trip Stack
+
+Fetch a trip stack as follows:
+
+  stack = Trazzler.trip_stack(options={})
+  stack.current_page
+  stack.records[0].post_id
+
+This method supports all of the trip_stack parameters supported by the Trazzler API.  Check out the documentation here: http://birdfoot.trazzler.com/about/api-docs#get-trip-stack
+
+=== Get Trip
+
+Retrieve a trip by either id or permalink as follows:
+
+  trip = Trazzler.get_trip(:id => 1)
+  trip = Trazzler.get_trip(:permalink => 'lauderdale-by-the-sea-florida')
+  trip.content
+  trip.url
+
+You must specify either an ID or a permalink to use this method.  Check the documentation here: http://birdfoot.trazzler.com/about/api-docs#get-trip
+
 == Copyright
 
 Copyright (c) 2010 Brian McManus.
