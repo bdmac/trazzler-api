@@ -7,7 +7,7 @@ require 'json'
 
 module Trazzler
   include HTTParty
-  base_uri "http://birdfoot.trazzler.com/trips"
+  base_uri "http://www.trazzler.com/trips"
   
   class Unavailable < StandardError; end
   class ClientError < StandardError; end
@@ -45,7 +45,7 @@ module Trazzler
       when 405..499
         raise ClientError, "(#{response.code}): #{response.message}"
       when 500
-        raise InformTwitter, "Trazzler had an internal error. Please let them know. (#{response.code}): #{response.message}"
+        raise InformTrazzler, "Trazzler had an internal error. Please let them know. (#{response.code}): #{response.message}"
       when 502..503
         raise Unavailable, "(#{response.code}): #{response.message}"
     end

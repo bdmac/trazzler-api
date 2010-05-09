@@ -25,7 +25,7 @@ class ApiTest < Test::Unit::TestCase
     
     should 'default options as appropriate' do
       stack = Trazzler.trip_stack
-      assert_equal '1', stack.current_page
+      assert_equal 1, stack.page
       assert_nil stack.location
     end
     
@@ -36,7 +36,7 @@ class ApiTest < Test::Unit::TestCase
     
     should 'respect page option' do
       stack = Trazzler.trip_stack(:page => 2)
-      assert_equal '2', stack.current_page
+      assert_equal 2, stack.page
     end
     
   end
