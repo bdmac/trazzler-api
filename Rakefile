@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('trazzler-api', '0.1.4') do |p|
+Echoe.new('trazzler-api', '0.1.5') do |p|
   p.author = 'Brian McManus'
   p.email = 'bdmac97@gmail.com'
   p.summary = 'Simple wrapper for the Trazzler API.'

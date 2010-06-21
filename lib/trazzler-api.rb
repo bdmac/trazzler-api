@@ -5,29 +5,33 @@ require 'httparty'
 require 'hashie'
 require 'json'
 
-module Trazzler
+class Trazzler
   include HTTParty
-  base_uri "http://www.trazzler.com/trips"
+  base_uri "http://api.trazzler.com/trips"
+  
+  def initialize(base = nil)
+    self.class.base_uri(base) unless base.nil?
+  end
   
   class Unavailable < StandardError; end
   class ClientError < StandardError; end
   class InformTrazzler < StandardError; end
   class NotFound < StandardError; end
   
-  def self.get_trip(options={})
+  def get_trip(options={})
     id = options.delete(:id) || options.delete(:permalink)
     raise ArgumentError unless id
-    make_friendly(get("/#{id}.json", {:query => options}))
+    make_friendly(self.class.get("/#{id}.json", {:query => options}))
   end
   
-  def self.trip_stack(options={})
+  def trip_stack(options={})
     options = {:page => 1, :details => 'false', :browsing_mode_id => 3}.merge(options)
-    make_friendly(get("/stack.json", {:query => options}))
+    make_friendly(self.class.get("/stack.json", {:query => options}))
   end
   
   private
   
-  def self.make_friendly(response)
+  def make_friendly(response)
     raise_errors(response)
     data = parse(response)
     # Don't mash arrays of integers
@@ -38,7 +42,7 @@ module Trazzler
     end
   end
  
-  def self.raise_errors(response)
+  def raise_errors(response)
     case response.code.to_i
       when 404
         raise NotFound, "(#{response.code}): #{response.message}"
@@ -51,12 +55,12 @@ module Trazzler
     end
   end
  
-  def self.parse(response)
+  def parse(response)
     return '' if response.body == ''
     JSON.parse(response.body)
   end
  
-  def self.mash(obj)
+  def mash(obj)
     if obj.is_a?(Array)
       obj.map{|item| make_mash_with_consistent_hash(item)}
     elsif obj.is_a?(Hash)
@@ -67,7 +71,7 @@ module Trazzler
   end
  
   # Lame workaround for the fact that mash doesn't hash correctly
-  def self.make_mash_with_consistent_hash(obj)
+  def make_mash_with_consistent_hash(obj)
     m = Hashie::Mash.new(obj)
     def m.hash
       inspect.hash

@@ -40,11 +40,12 @@ followed by:
 
 Fetch a trip stack as follows:
 
-  stack = Trazzler.trip_stack
+  trazzler = Trazzler.new
+  stack = trazzler.trip_stack
   stack.current_page
   stack.records[0].post_id
-  stack = Trazzler.trip_stack(:login => 'bdmac')
-  stack = Trazzler.trip_stack(:location => '39.85,-86.03', :details => true, :page => 3)
+  stack = trazzler.trip_stack(:login => 'bdmac')
+  stack = trazzler.trip_stack(:location => '39.85,-86.03', :details => true, :page => 3)
 
 This method supports all of the trip_stack parameters supported by the Trazzler API.  Simply pass the parameters into
 the method as a hash as shown above.  Check out the documentation here: http://birdfoot.trazzler.com/about/api-docs#get-trip-stack
@@ -53,8 +54,9 @@ the method as a hash as shown above.  Check out the documentation here: http://b
 
 Retrieve a trip by either id or permalink as follows:
 
-  trip = Trazzler.get_trip(:id => 1)
-  trip = Trazzler.get_trip(:permalink => 'lauderdale-by-the-sea-florida')
+  trazzler = Trazzler.new
+  trip = trazzler.get_trip(:id => 1)
+  trip = trazzler.get_trip(:permalink => 'lauderdale-by-the-sea-florida')
   trip.content
   trip.url
 
