@@ -8,29 +8,29 @@ require 'json'
 class Trazzler
   include HTTParty
   base_uri "http://api.trazzler.com/trips"
-  
+
   def initialize(base = nil)
     self.class.base_uri(base) unless base.nil?
   end
-  
+
   class Unavailable < StandardError; end
   class ClientError < StandardError; end
   class InformTrazzler < StandardError; end
   class NotFound < StandardError; end
-  
+
   def get_trip(options={})
     id = options.delete(:id) || options.delete(:permalink)
     raise ArgumentError unless id
     make_friendly(self.class.get("/#{id}.json", {:query => options}))
   end
-  
+
   def trip_stack(options={})
     options = {:page => 1, :details => 'false', :browsing_mode_id => 3}.merge(options)
     make_friendly(self.class.get("/stack.json", {:query => options}))
   end
-  
+
   private
-  
+
   def make_friendly(response)
     raise_errors(response)
     data = parse(response)
@@ -41,7 +41,7 @@ class Trazzler
       mash(data)
     end
   end
- 
+
   def raise_errors(response)
     case response.code.to_i
       when 404
@@ -54,12 +54,12 @@ class Trazzler
         raise Unavailable, "(#{response.code}): #{response.message}"
     end
   end
- 
+
   def parse(response)
     return '' if response.body == ''
     JSON.parse(response.body)
   end
- 
+
   def mash(obj)
     if obj.is_a?(Array)
       obj.map{|item| make_mash_with_consistent_hash(item)}
@@ -69,7 +69,7 @@ class Trazzler
       obj
     end
   end
- 
+
   # Lame workaround for the fact that mash doesn't hash correctly
   def make_mash_with_consistent_hash(obj)
     m = Hashie::Mash.new(obj)
@@ -82,7 +82,7 @@ end
 
 module Hashie
   class Mash
- 
+
     # Converts all of the keys to strings, optionally formatting key name
     def rubyify_keys!
       keys.each{|k|
@@ -94,6 +94,6 @@ module Hashie
       }
       self
     end
- 
+
   end
 end
