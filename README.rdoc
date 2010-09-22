@@ -44,7 +44,7 @@ Fetch trips sorted by distance from the specified location:
   trips = trazzler.trips(:location => '39.85,-86.03')
   trips.current_page
   trips.records[0].post_id
-  trips = trazzler.trip_stack(:location => '39.85,-86.03', :details => true, :page => 3)
+  trips = trazzler.trips(:location => '39.85,-86.03', :details => true, :page => 3)
 
 This method supports all of the trips_by_location parameters supported by the Trazzler API.  Simply pass the parameters into
 the method as a hash as shown above.  Check out the documentation here: http://api.trazzler.com/about/api-docs#trips_by_location
