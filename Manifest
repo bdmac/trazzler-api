@@ -4,3 +4,4 @@ Rakefile
 lib/trazzler-api.rb
 test/api_test.rb
 test/test_helper.rb
+trazzler-api.gemspec
