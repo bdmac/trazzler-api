@@ -24,9 +24,9 @@ class Trazzler
     make_friendly(self.class.get("/#{id}.json", {:query => options}))
   end
 
-  def trip_stack(options={})
-    options = {:page => 1, :details => 'false', :browsing_mode_id => 3}.merge(options)
-    make_friendly(self.class.get("/stack.json", {:query => options}))
+  def trips_by_location(options={})
+    options = {:page => 1, :details => 'false'}.merge(options)
+    make_friendly(self.class.get("/trips_by_location.json", {:query => options}))
   end
 
   private
