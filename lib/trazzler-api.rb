@@ -7,7 +7,7 @@ require 'json'
 
 class Trazzler
   include HTTParty
-  base_uri "http://api.trazzler.com/trips"
+  base_uri "http://api.trazzler.com"
 
   def initialize(base = nil)
     self.class.base_uri(base) unless base.nil?
@@ -21,12 +21,18 @@ class Trazzler
   def get_trip(options={})
     id = options.delete(:id) || options.delete(:permalink)
     raise ArgumentError unless id
-    make_friendly(self.class.get("/#{id}.json", {:query => options}))
+    make_friendly(self.class.get("/trips/#{id}.json", {:query => options}))
+  end
+
+  def trips(options={})
+    options = {:page => 1, :details => 'true'}.merge(options)
+    make_friendly(self.class.get("/trips.json", {:query => options}))
   end
 
   def trips_by_location(options={})
-    options = {:page => 1, :details => 'false'}.merge(options)
-    make_friendly(self.class.get("/trips_by_location.json", {:query => options}))
+    options = {:page => 1, :details => 'true'}.merge(options)
+    make_friendly(self.class.get("/trips/trips_by_location.json",
+                                 {:query => options}))
   end
 
   private

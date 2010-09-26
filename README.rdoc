@@ -36,18 +36,29 @@ followed by:
 
   bundle install
 
+=== Trips
+
+Fetch trips sorted by their creation date (most recent first). 
+
+  trazzler = Trazzler.new
+  trip_list = trazzler.trips
+  trip_list.page
+  trip_list.trips[0].title
+  trip_list = trazzler.trips(:details => false, :page => 3)
+
+This method supports all of the trips parameters supported by the Trazzler API.  Simply pass the parameters into the method as a hash as shown above.  Check out the documentation here: http://api.trazzler.com/about/api-docs#trips
+
 === Trips By Location
 
 Fetch trips sorted by distance from the specified location:
 
   trazzler = Trazzler.new
-  trips = trazzler.trips(:location => '39.85,-86.03')
-  trips.current_page
-  trips.records[0].post_id
-  trips = trazzler.trip_stack(:location => '39.85,-86.03', :details => true, :page => 3)
+  trip_list = trazzler.trips_by_location(:location => '39.85,-86.03')
+  trip_list.page
+  trip_list.trips[0].title
+  trip_list = trazzler.trips_by_location(:location => '39.85,-86.03', :details => false, :page => 3)
 
-This method supports all of the trips_by_location parameters supported by the Trazzler API.  Simply pass the parameters into
-the method as a hash as shown above.  Check out the documentation here: http://api.trazzler.com/about/api-docs#trips_by_location
+This method supports all of the trips_by_location parameters supported by the Trazzler API.  Simply pass the parameters into the method as a hash as shown above.  Check out the documentation here: http://api.trazzler.com/about/api-docs#trips_by_location
 
 === Get Trip
 
