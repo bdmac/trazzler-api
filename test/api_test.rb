@@ -25,6 +25,20 @@ class ApiTest < Test::Unit::TestCase
 
   end
 
+  context 'trips' do
+
+    should 'default options as appropriate' do
+      stack = @trazzler.trips
+      assert_equal 1, stack.page
+    end
+
+    should 'respect page option' do
+      stack = @trazzler.trips(:page => 2)
+      assert_equal 2, stack.page
+    end
+
+  end
+
   context 'trips by location' do
 
     should 'default options as appropriate' do
