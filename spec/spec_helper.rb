@@ -10,7 +10,4 @@ class File
   end
 end
 
-require 'test/unit'
-require 'rubygems'
-require 'shoulda'
 require File.here / '..' / 'lib' / 'trazzler-api'
