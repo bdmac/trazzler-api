@@ -2,6 +2,7 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe TrazzlerApi::Trazzler do
   before(:each) do
+    WebMock.allow_net_connect!
     @trazzler = TrazzlerApi::Trazzler.new
   end
   
@@ -42,6 +43,64 @@ describe TrazzlerApi::Trazzler do
 
     it 'should respect page option' do
       @trazzler.trips_by_location(:page => 2).page.should == 2
+    end
+  end
+  
+  context 'promo unit' do
+    before(:each) do
+      WebMock.disable_net_connect!
+      @deal_id = '123'
+      @trip_ids = ['1', '2', '3']
+      @url = "api.trazzler.com/units/promo.json?deal_id=123&featured_trips=1,2,3"
+    end
+    
+    it 'should fetch a promo unit if given appropriate values' do
+      stub_request(:get, @url)
+      @trazzler.get_unit(@deal_id, @trip_ids)
+      WebMock.should have_requested(:get, @url)
+    end
+    
+    it 'should return appropriate deal fields' do
+      file = File.new(File.join(File.dirname(__FILE__), 'promo_output.txt'))
+      stub_request(:get, @url).to_return(:body => file, :status => 200)
+      unit = @trazzler.get_unit(@deal_id, @trip_ids)
+      unit.deal.should be
+      deal = unit.deal
+      deal.display_name.should == "Courtyard Orlando Downtown"
+      deal.price.should == 69
+      deal.percent_savings.should == 68
+      deal.city.should == "Orlando"
+      deal.state.should == "FL"
+      deal.cc.should == "US"
+      deal.crc.should == "Orlando, FL"
+      deal.url.should == "http://www.dealbase.com/hotel_deals/book/p/priceline.com/266330?rc=trazzler"
+      deal.deal_start.should == "2010/10/22"
+      deal.deal_end.should == "2010/10/24"
+      deal.stale.should be_false
+      deal.phone.should be_nil
+      deal.weekend_available.should be_false
+      deal.id.should == "4cba4eed682cea5462000258"
+      deal.latlng.should == [28.5383355,-81.3792365]
+    end
+    
+    context 'with deals as array' do
+      it 'should retrieve and parse the JSON results for a promo unit' do
+        file = File.new(File.join(File.dirname(__FILE__), 'promo_deals_array_output.txt'))
+        stub_request(:get, @url).to_return(:body => file, :status => 200)
+        unit = @trazzler.get_unit(@deal_id, @trip_ids)
+        unit.deal.should be
+        unit.trips.should have(3).trips
+      end
+    end
+    
+    context 'with singular deal' do
+      it 'should retrieve and parse the JSON results for a promo unit' do
+        file = File.new(File.join(File.dirname(__FILE__), 'promo_output.txt'))
+        stub_request(:get, @url).to_return(:body => file, :status => 200)
+        unit = @trazzler.get_unit(@deal_id, @trip_ids)
+        unit.deal.should be
+        unit.trips.should have(3).trips
+      end
     end
   end
 end

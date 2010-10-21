@@ -34,7 +34,22 @@ module TrazzlerApi
       make_friendly(self.class.get("/trips/trips_by_location.json",
                                    {:query => options}))
     end
-
+    
+    def get_unit(deal_id, trip_ids, options={})
+      options = {
+        :deal_id => deal_id,
+        :featured_trips => trip_ids.join(',')
+      }.merge(options)
+      unit = make_friendly(self.class.get("/units/promo.json",
+                                   {:query => options}))
+      # Transform the unit's deals into a single deal if deals returned.
+      if !unit.blank? && unit.deals
+        unit['deal'] = unit.deals.first
+        unit.delete('deals')
+      end
+      unit
+    end
+    
     private
 
     def make_friendly(response)

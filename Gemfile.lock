@@ -2,18 +2,19 @@ PATH
   remote: .
   specs:
     trazzler-api (0.1.8)
-      hashie
-      httparty
-      json
+      hashie (~> 0.2.0)
+      httparty (~> 0.6.1)
+      json (~> 1.4.3)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    crack (0.1.6)
+    addressable (2.2.2)
+    crack (0.1.8)
     diff-lcs (1.1.2)
     hashie (0.2.0)
-    httparty (0.5.2)
-      crack (= 0.1.6)
+    httparty (0.6.1)
+      crack (= 0.1.8)
     json (1.4.3)
     rspec (2.0.1)
       rspec-core (~> 2.0.1)
@@ -25,14 +26,18 @@ GEM
     rspec-mocks (2.0.1)
       rspec-core (~> 2.0.1)
       rspec-expectations (~> 2.0.1)
+    webmock (1.4.0)
+      addressable (>= 2.2.2)
+      crack (>= 0.1.7)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bundler (>= 1.0.0)
-  hashie
-  httparty
-  json
+  hashie (~> 0.2.0)
+  httparty (~> 0.6.1)
+  json (~> 1.4.3)
   rspec (~> 2.0.1)
   trazzler-api!
+  webmock (~> 1.4.0)

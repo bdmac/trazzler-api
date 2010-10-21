@@ -22,8 +22,9 @@ Gem::Specification.new do |s|
   
   s.add_development_dependency "bundler", ">= 1.0.0"
   s.add_development_dependency "rspec", "~> 2.0.1"
+  s.add_development_dependency "webmock", "~> 1.4.0"
   
-  s.add_runtime_dependency "httparty", "~> 0.5.2"
+  s.add_runtime_dependency "httparty", "~> 0.6.1"
   s.add_runtime_dependency "json", "~> 1.4.3"
   s.add_runtime_dependency "hashie", "~> 0.2.0"
 end
