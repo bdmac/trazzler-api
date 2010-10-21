@@ -40,7 +40,7 @@ followed by:
 
 Fetch trips sorted by their creation date (most recent first). 
 
-  trazzler = Trazzler.new
+  trazzler = TrazzlerApi::Trazzler.new
   trip_list = trazzler.trips
   trip_list.page
   trip_list.trips[0].title
@@ -52,7 +52,7 @@ This method supports all of the trips parameters supported by the Trazzler API. 
 
 Fetch trips sorted by distance from the specified location:
 
-  trazzler = Trazzler.new
+  trazzler = TrazzlerApi::Trazzler.new
   trip_list = trazzler.trips_by_location(:location => '39.85,-86.03')
   trip_list.page
   trip_list.trips[0].title
@@ -64,7 +64,7 @@ This method supports all of the trips_by_location parameters supported by the Tr
 
 Retrieve a trip by either id or permalink as follows:
 
-  trazzler = Trazzler.new
+  trazzler = TrazzlerApi::Trazzler.new
   trip = trazzler.get_trip(:id => 1)
   trip = trazzler.get_trip(:permalink => 'lauderdale-by-the-sea-florida')
   trip.content
