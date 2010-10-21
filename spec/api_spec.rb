@@ -46,6 +46,45 @@ describe TrazzlerApi::Trazzler do
     end
   end
   
+  context 'units' do
+    before(:each) do
+      WebMock.disable_net_connect!
+      @location = "San Francisco, CA"
+      @url = "api.trazzler.com/units.json?q=#{@location}&unit_count=3"
+    end
+    
+    it 'should fetch units for the specified location' do
+      stub_request(:get, @url)
+      @trazzler.units(@location)
+      WebMock.should have_requested(:get, @url)
+    end
+    
+    it 'should default to three units' do
+      file = File.new(File.join(File.dirname(__FILE__), 'units_output.txt'))
+      stub_request(:get, @url).to_return(:body => file, :status => 200)
+      units = @trazzler.units(@location)
+      units.should have(3).units
+      units.each do |unit|
+        unit.deal.should be
+        unit.trips.should have(3).trips
+      end
+    end
+    
+    it 'should allow a different number of units to be specified' do
+      count = 1
+      @url = "api.trazzler.com/units.json?q=#{@location}&unit_count=1"
+      stub_request(:get, @url)
+      @trazzler.units(@location, count)
+      WebMock.should have_requested(:get, @url)
+    end
+    
+    it 'should be aliased as packages' do
+      stub_request(:get, @url)
+      @trazzler.packages(@location)
+      WebMock.should have_requested(:get, @url)
+    end
+  end
+  
   context 'promo unit' do
     before(:each) do
       WebMock.disable_net_connect!
@@ -57,6 +96,12 @@ describe TrazzlerApi::Trazzler do
     it 'should fetch a promo unit if given appropriate values' do
       stub_request(:get, @url)
       @trazzler.get_unit(@deal_id, @trip_ids)
+      WebMock.should have_requested(:get, @url)
+    end
+    
+    it 'should be aliased as get_package' do
+      stub_request(:get, @url)
+      @trazzler.get_package(@deal_id, @trip_ids)
       WebMock.should have_requested(:get, @url)
     end
     

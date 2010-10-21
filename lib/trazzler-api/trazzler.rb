@@ -35,6 +35,14 @@ module TrazzlerApi
                                    {:query => options}))
     end
     
+    # Fetches three units for the specified location
+    def units(location, count = 3, options={})
+      options = {:q => location, :unit_count => count}.merge(options)
+      make_friendly(self.class.get("/units.json",
+                                   {:query => options}))
+    end
+    alias_method :packages, :units
+    
     def get_unit(deal_id, trip_ids, options={})
       options = {
         :deal_id => deal_id,
@@ -49,7 +57,8 @@ module TrazzlerApi
       end
       unit
     end
-    
+    alias_method :get_package, :get_unit
+        
     private
 
     def make_friendly(response)

@@ -70,7 +70,25 @@ Retrieve a trip by either id or permalink as follows:
   trip.content
   trip.url
 
-You must specify either an ID or a permalink to use this method.  Check the documentation here: http://birdfoot.trazzler.com/about/api-docs#get-trip
+You must specify either an ID or a permalink to use this method.  Check the documentation here: http://api.trazzler.com/about/api-docs#get-trip
+
+=== Packages
+
+Fetch random Trazzler packages near a location.
+
+  trazzler = TrazzlerApi::Trazzler.new
+  location = "San Francisco, CA"
+  packages = trazzler.packages(location)
+  packages.size # => 3
+  packages.first.deal # => The deal.
+  packages.first.trips # => Three trips near the deal.
+  location = "37.7749295,-122.4194155"
+  packages = trazzler.packages(location, 1)
+
+This method builds up and returns random Trazzler packages near a given location.  By default three packages are created but this can be overridden
+with the second parameter to #packages.
+
+A package contains one Trazzler deal and three Trazzler trips near that deal.
 
 == Copyright
 
